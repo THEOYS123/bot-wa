@@ -178,11 +178,11 @@ Taruh lisensi yang sesuai di repo (misal MIT) — sesuaikan kebutuhan kamu.
 ## 📞 Kontak
 Jika butuh bantuan lebih lanjut, kasih tau aja lewat chat. Kalau mau integrasi khusus (auto-reply, DB, atau hosting) gue bantu jelasin step-by-step 🤝
 
-[Contact]{httpz://t.me/flood1233}
+[Contact](httpz://t.me/flood1233) 
 
-[Saluran whatsapp]{https://whatsapp.com/channel/0029VagB9OYJJhzZIjgXGd11}
+[Saluran whatsapp](https://whatsapp.com/channel/0029VagB9OYJJhzZIjgXGd11) 
 
-[My website]{https://ngoprek.xyz}
+[My website](https://ngoprek.xyz) 
 
 ---
 
