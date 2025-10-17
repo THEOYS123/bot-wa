@@ -47,7 +47,7 @@ Buat file `.env` di root project dengan isi minimal berikut:
 GEMINI_API_KEYS=API_KEY1,API_KEY2           # Pisahkan dengan koma jika lebih dari 1
 OWNER_NUMBER=6289xxxxxxxx                   # Nomor utama owner (tanpa +)
 GEMINI_MODEL=gemini-1.5-flash               # (opsional) default jika tidak diisi
-SYSTEM_INSTRUCTION=Kamu adalah asisten AI WhatsApp yang canggih, ramah, dan membantu.
+SYSTEM_INSTRUCTION=Aku adalah asisten AI WhatsApp yang canggih, ramah, dan membantu.
 ```
 
 > **Catatan penting:**
@@ -59,8 +59,8 @@ SYSTEM_INSTRUCTION=Kamu adalah asisten AI WhatsApp yang canggih, ramah, dan memb
 ## 📥 Instalasi
 1. Clone repo (atau copy file `index.js` ke folder baru):
 ```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
+git clone https://github.com/THEOYS123/bot-wa.git
+cd bot-wa
 ```
 2. Inisialisasi npm (jika belum):
 ```bash
