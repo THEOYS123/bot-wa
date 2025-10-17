@@ -178,6 +178,10 @@ Taruh lisensi yang sesuai di repo (misal MIT) — sesuaikan kebutuhan kamu.
 ## 📞 Kontak
 Jika butuh bantuan lebih lanjut, kasih tau aja lewat chat. Kalau mau integrasi khusus (auto-reply, DB, atau hosting) gue bantu jelasin step-by-step 🤝
 
+my contact      : t.me/flood1233
+saluran whatsapp: https://whatsapp.com/channel/0029VagB9OYJJhzZIjgXGd11
+my website      : ngoprek.xyz
+
 ---
 
 Terima kasih sudah pakai *Gemini WhatsApp Bot*! Semoga membantu dan bikin hidup lo lebih enteng 😎🗿
