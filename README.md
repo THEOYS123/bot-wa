@@ -1,4 +1,4 @@
-# Gemini WhatsApp Bot — Versi Final (Stable) 🤖✨
+# Gemini WhatsApp Bot — Versi V2 🤖✨
 
 > **Deskripsi singkat**
 >
