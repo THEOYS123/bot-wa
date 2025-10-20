@@ -68,7 +68,7 @@ npm init -y
 ```
 3. Install dependencies:
 ```bash
-npm install @whiskeysockets/baileys @google/generative-ai dotenv qrcode qrcode-terminal pino
+npm install dotenv axios @whiskeysockets/baileys @google/generative-ai pino qrcode qrcode-terminal whois-json cheerio got valid-url tldts node-nmap tinyurl shortid ping
 ```
 
 ---
