@@ -1,3 +1,9 @@
+// ini file index.js
+// Kalau mau recode atau modifikasi script nya minimal izin ke saya okeyy. 
+// Mohon kerja sama nya agar tidak sembarangan memodifikasi gak cipta seseorang. 
+// my contact: t.me/flood1233
+// saluran whatsapp: https://whatsapp.com/channel/0029VagB9OYJJhzZIjgXGd11
+// my website: ngoprek.xyz
 
 console.log('[DEBUG] Skrip dimulai...');
 require('dotenv').config();
