@@ -1,9 +1,5 @@
-// ini file index.js
-// Kalau mau recode atau modifikasi script nya minimal izin ke saya okeyy. 
-// Mohon kerja sama nya agar tidak sembarangan memodifikasi gak cipta seseorang. 
-// my contact: t.me/flood1233
-// saluran whatsapp: https://whatsapp.com/channel/0029VagB9OYJJhzZIjgXGd11
-// my website: ngoprek.xyz
+// index.js — Gemini WhatsApp Bot (Gabungan: lengkap + Cyber Tools modular)
+// Pastikan: node >=16, modul di package.json terinstall, dan folder ./cybertools berisi modul yang diperlukan.
 
 console.log('[DEBUG] Skrip dimulai...');
 require('dotenv').config();
@@ -29,6 +25,7 @@ console.log('[DEBUG] @google/generative-ai dimuat.');
 
 console.log('[DEBUG] pino, qrcode libs dimuat.');
 
+// ---------- Env validation ----------
 if (!process.env.GEMINI_API_KEYS) {
     console.error('❌ Error: GEMINI_API_KEYS tidak ditemukan di file .env');
     process.exit(1);
@@ -44,6 +41,7 @@ if (apiKeys.length === 0) {
     process.exit(1);
 }
 
+// ---------- Core state ----------
 let currentApiKeyIndex = 0;
 let currentModel = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 let botMode = 'private'; // 'private' | 'group' | 'all'
@@ -54,9 +52,11 @@ const startTime = new Date();
 const chatHistories = new Map();
 let systemInstruction = process.env.SYSTEM_INSTRUCTION || 'Aku adalah asisten AI WhatsApp yang canggih, ramah, dan sangat membantu. Jawablah dengan format yang rapi menggunakan markdown WhatsApp.';
 
+// cooldowns
 const cooldowns = new Map();
 const COOLDOWN_MS = 3000; // 3 detik
 
+// ---------- Cybertools loader (modular) ----------
 const CT_DIR = path.join(__dirname, 'cybertools');
 const cyberModules = {};
 const cyberModuleNames = ['scanUrl','whois','dnslookup','portscan','ipinfo','headers','techdetect','subfinder','shorturl','expandurl','nmap'];
@@ -77,6 +77,7 @@ for (const name of cyberModuleNames) {
     }
 }
 
+// ---------- Utility functions ----------
 function formatUptime(ms) {
     const d = Math.floor(ms / (1000 * 60 * 60 * 24));
     const h = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -133,6 +134,7 @@ function setCooldown(jid) {
     cooldowns.set(jid, Date.now());
 }
 
+// ---------- Gemini ask function (with key rotation & image support) ----------
 async function askGemini(prompt, history = [], imageBuffer = null, model = currentModel) {
     const maxRetries = apiKeys.length;
     for (let i = 0; i < maxRetries; i++) {
@@ -187,6 +189,7 @@ async function askGemini(prompt, history = [], imageBuffer = null, model = curre
     return { text: '⚠️ Maaf, semua koneksi ke AI sedang sibuk atau bermasalah. Coba lagi dalam beberapa saat.', history: [] };
 }
 
+// ---------- Start function (main) ----------
 async function start() {
     loadOwners();
     const { state, saveCreds } = await useMultiFileAuthState('./auth');
@@ -255,11 +258,13 @@ async function start() {
 
                 console.log(`💬 ${isGroup ? '[GROUP]' : '[PRIVATE]'} dari ${msg.pushName || sender.split('@')[0]}: "${text.substring(0, 50)}${isImage || isQuotedImage ? ' [Gambar]' : ''}${isVideo || isQuotedVideo ? ' [Video]' : ''}"`);
 
+                // ----------------- Commands handling (starts with /) -----------------
                 if (text.startsWith('/')) {
                     const [cmd, ...args] = text.trim().split(' ');
                     const command = cmd.toLowerCase();
                     const argText = args.join(' ');
 
+                    // owner-only commands
                     if (['/model', '/mode', '/addowner', '/delowner', '/listowner', '/system', '/link', '/stats', '/on', '/off', '/cybermenu'].includes(command)) {
                         if (!isOwner) {
                             await sock.sendMessage(from, { text: '❌ Perintah ini hanya untuk Owner Bot.' }, { quoted: msg });
@@ -383,6 +388,7 @@ async function start() {
                                 break;
                             }
                             case '/link': {
+                                // Keep it safe and simple: we generate a temporary auth pairing socket and send QR
                                 await sock.sendMessage(from, { text: '⏳ Meminta kode QR baru, mohon tunggu...' }, { quoted: msg });
                                 const tempAuth = `./temp_auth_${Date.now()}`;
                                 const { state: tempState, saveCreds: tempSaveCreds } = await useMultiFileAuthState(tempAuth);
@@ -435,6 +441,7 @@ async function start() {
                                 break;
                             }
                             case '/cybermenu': {
+                                // owner-only cyber menu
                                 const cyberMenu = `🕶️ *Cyber Tools Menu* 🕶️
 
 Gunakan tools di bawah untuk eksplorasi & analisis website target 🧠
@@ -461,6 +468,8 @@ Contoh: \`/scanurl https://example.com\``;
                         continue;
                     }
 
+                    // ----------------- Non-owner commands and general commands -----------------
+                    // We'll handle the rest as in previous script (menu, help, sticker, reveal, group commands, etc.)
                     switch (command) {
                         case '/menu':
                         case '/help': {
@@ -674,6 +683,7 @@ ${metadata.desc || 'Tidak ada deskripsi'}`;
                             break;
                         }
 
+                        // ----------------- Cyber commands mapping (owner-only check done above) -----------------
                         case '/scanurl':
                         case '/whois':
                         case '/dnslookup':
@@ -685,6 +695,7 @@ ${metadata.desc || 'Tidak ada deskripsi'}`;
                         case '/shorturl':
                         case '/expandurl':
                         case '/nmap': {
+                            // Must be owner (some commands already allowed only for owners earlier; double-check)
                             if (!isOwner) {
                                 await sock.sendMessage(from, { text: '❌ Perintah cyber hanya untuk Owner.' }, { quoted: msg });
                                 break;
@@ -739,6 +750,7 @@ ${metadata.desc || 'Tidak ada deskripsi'}`;
                     continue;
                 }
 
+                // ----------------- Non-command: AI conversation / image vision -----------------
                 if (botMode === 'private' && isGroup) continue;
                 if (botMode === 'group' && !isGroup) continue;
 
